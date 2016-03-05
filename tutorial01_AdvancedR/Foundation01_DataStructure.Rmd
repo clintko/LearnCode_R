@@ -1,0 +1,14 @@
+---
+title: "Foundation01_DataStructure"
+output: html_document
+---
+
+# Intro to R data Structure
+
+| Dimension | Homogenous    | Heterogeneous |
+|-----------|---------------|---------------|
+| 1d        | Atomic vector | List          |
+| 2d        | Matrix        | Data frame    |
+| nd        | Array         |               |
+
+
