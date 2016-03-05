@@ -12,3 +12,261 @@ output: html_document
 | nd        | Array         |               |
 
 
+Note that R has no 0-dimensional, or scalar types. Individual numbers or strings, which you might think would be scalars, are actually vectors of length one.
+
+Given an object, the best way to understand what data structures it’s composed of is to use str(). str() is short for structure and it gives a compact, human readable description of any R data structure.
+
+### Quiz
+Take this short quiz to determine if you need to read this chapter. If the answers quickly come to mind, you can comfortably skip this chapter. You can check your answers in answers.
+
+
+- *Q1* What are the three properties of a vector, other than its contents?
+    - **MyAns:** value, names, length
+    
+
+- *Q2* What are the four common types of atomic vectors? What are the two rare types?
+    - **MyAns:** 
+        1. characterm, boolean, numeric, integer
+        2. complex number, ???
+
+
+- *Q3* What are attributes? How do you get them and set them?
+    - **MyAns:** 
+        - attributes are fields that belong to an object
+        - attributes()
+
+
+- *Q4* How is a list different from an atomic vector? How is a matrix different from a data frame?
+    - **MyAns:** 
+        - list is a collection of variables and each variables could be different types
+        - matrix stores data of the same types, while columns in data frame could be composed of different types with each other
+
+
+- *Q5* Can you have a list that is a matrix? Can a data frame have a column that is a matrix?
+    - **MyAns:** 
+        1. Yes
+        2. No
+
+
+### Outline
+- Vectors introduces you to atomic vectors and lists, R’s 1d data structures.
+
+- Attributes takes a small detour to discuss attributes, R’s flexible metadata specification. Here you’ll learn about factors, an important data structure created by setting attributes of an atomic vector.
+
+- Matrices and arrays introduces matrices and arrays, data structures for storing 2d and higher dimensional data.
+
+- Data frames teaches you about the data frame, the most important data structure for storing data in R. Data frames combine the behaviour of lists and matrices to make a structure ideally suited for the needs of statistical data.
+
+# Vectors
+- Vectors come in two flavours: atomic vectors and lists
+
+- Three common properties
+    - **Type**:       typeof(), what it is
+    - **Length**:     length(), how many elements it contains
+    - **Attributes**: attributes(), additional arbitrary metadata
+    
+- atomic vectors vs lists
+    - atomic vectors: all elements must be the same type
+    - list:           elements can have different types
+    
+## Vectors: Atomic vectors
+- four common types
+    - logical
+    - integer
+    - double (numeric)
+    - character
+    
+- c(), short for combine
+```{r}
+dbl_var <- c(1, 2.5, 4.5)
+
+# with the L suffix, you get an integer rather than a double
+int_var <- c(1L, 6L, 10L)
+
+# use TRUE and FALSE (or T and F) to create logical vectors
+log_var <- c(TRUE, FALSE, T, F)
+
+chr_var <- c("these are", "some strings")
+```
+
+Atomic vectors are always flat, even if you nest c()'s
+```{r}
+c(1, c(2, c(3, 4)))
+#> [1] 1 2 3 4
+
+# the same as
+c(1, 2, 3, 4)
+#> [1] 1 2 3 4
+```
+
+Missing value -> NA
+- **NA_real_**
+- **NA_integer_**
+- **NA_character_**
+```{r}
+NA_real_
+NA_integer_
+NA_character_
+```
+
+### Types and tests
+- typeof()
+- "is" function
+    - is.character()
+    - is.double()
+    - is.integer()
+    - is.logical()
+    - is.atomic()
+
+```{r}
+int_var <- c(1L, 6L, 10L)
+typeof(int_var)
+#> [1] "integer"
+is.integer(int_var)
+#> [1] TRUE
+is.atomic(int_var)
+#> [1] TRUE
+
+dbl_var <- c(1.0, 2.5, 4.5)
+typeof(dbl_var)
+#> [1] "double"
+is.double(dbl_var)
+#> [1] TRUE
+is.atomic(dbl_var)
+#> [1] TRUE
+```
+
+is.numeric() is a general test for the "numberliness"
+```{r}
+is.numeric(int_var)
+is.numeric(dbl_var)
+```
+
+### Coercion
+different vector -> coerced to the most flexible type
+least most flexible: logical, integer, double, and character
+```{r}
+str(c("a", 1))
+#> chr [1:2] "a" "1"
+```
+
+when logical -> numeric
+- TRUE  -> 1
+- FALSE -> 0
+useful in conjunction with sum() and mean()
+```{r}
+x <- c(FALSE, FALSE, TRUE)
+as.numeric(x)
+#> [1] 0 0 1
+
+# Total number of TRUEs
+sum(x)
+#> [1] 1
+
+# Proportion that are TRUE
+mean(x)
+#> [1] 0.333333
+```
+
+## Lists
+- elements of list can be of any type, including list
+- list()
+```{r}
+x <- list(1:3, "a", c(T, F, T), c(2.3, 5.9))
+str(x)
+#> List of 4
+#>  $ : int [1:3] 1 2 3
+#>  $ : chr "a"
+#>  $ : logi [1:3] TRUE FALSE TRUE
+#>  $ : num [1:2] 2.3 5.9
+```
+
+Lists are sometimes called recursive vectors, because a list can contain other lists. This makes them undamentally different from atomic vectors
+```{r}
+x <- list(list(list(list())))
+str(x)
+#> List of 1
+#>   $ :List of 1
+#>    ..$ :List of 1
+#>    .. ..$ : list()
+
+is.recursive(x)
+#> [1] TRUE
+```
+
+c() will combine several lists into one. If given a combination of atomic vectors and lists, c() will coerce the vectors to lists before combining them. Compare the results of list() and c():
+```{r}
+x <- list(list(1, 2), c(3, 4))
+y <- c(list(1, 2), c(3, 4))
+str(x)
+#> List of 2
+#>  $ :List of 2
+#>   ..$ : num 1
+#>   ..$ : num 2
+#>  $ : num [1:2] 3 4
+
+str(y)
+#> List of 4
+#>  $ : num 1
+#>  $ : num 2
+#>  $ : num 3
+#>  $ : num 4
+```
+
+typeof()
+is.list()
+as.list()
+unlist()
+```{r}
+x <- c(1, 2, 3)
+y <- list(1, 2, 3)
+is.list(x)
+is.list(y)
+as.list(x)
+unlist(y)
+```
+
+Lists are used to build up many of the more complicated data structures in R. For example, both data frames (described in data frames) and linear models objects (as produced by lm()) are lists:
+```{r}
+is.list(mtcars)
+head(mtcars)
+
+mod <- lm(mpg ~ wt, data = mtcars)
+is.list(mod)
+```
+
+### Exercises
+1. What are the six types of atomic vector? How does a list differ from an atomic vector?
+
+2. What makes is.vector() and is.numeric() fundamentally differnt to is.list() and is.charactter()?
+
+3. Test your knowledge of vector coercion rules by predicting the output of the following uses of c();
+```{r}
+c(1, FALSE)
+c("a", 1)
+c(list(1), "a") #!!!
+c(T, 1L)
+```
+
+4. Why do you need to use unlist() to convert a list to an atomic vector? Why doesn't as.vector() work?
+```{r}
+x <- list(1, 2, 3)
+as.vector(x)
+as.integer(x)
+c(x)
+```
+
+**MyAns**
+because list is also a vector, therefore as.vector does not work
+
+5. why is 1 == "1" true? Why is -1 < FALSE true? Why is "one" < 2 false?
+
+6. Why is the default missing value, NA, a logical vector? What's special about logical vectors? (Hint: think about c(FALSE, NA_character_)
+```{r}
+c(FALSE, NA_character_)
+typeof(NA)
+```
+
+**MyAns**
+because the logical is the least flexible types
+
