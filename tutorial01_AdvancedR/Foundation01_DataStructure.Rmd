@@ -14,7 +14,7 @@ output: html_document
 
 Note that R has no 0-dimensional, or scalar types. Individual numbers or strings, which you might think would be scalars, are actually vectors of length one.
 
-Given an object, the best way to understand what data structures itâ€™s composed of is to use str(). str() is short for structure and it gives a compact, human readable description of any R data structure.
+Given an object, the best way to understand what data structures it? composed of is to use str(). str() is short for structure and it gives a compact, human readable description of any R data structure.
 
 ### Quiz
 Take this short quiz to determine if you need to read this chapter. If the answers quickly come to mind, you can comfortably skip this chapter. You can check your answers in answers.
@@ -49,9 +49,9 @@ Take this short quiz to determine if you need to read this chapter. If the answe
 
 
 ### Outline
-- Vectors introduces you to atomic vectors and lists, Râ€™s 1d data structures.
+- Vectors introduces you to atomic vectors and lists, R?€™s 1d data structures.
 
-- Attributes takes a small detour to discuss attributes, Râ€™s flexible metadata specification. Here youâ€™ll learn about factors, an important data structure created by setting attributes of an atomic vector.
+- Attributes takes a small detour to discuss attributes, R?€™s flexible metadata specification. Here you?€™ll learn about factors, an important data structure created by setting attributes of an atomic vector.
 
 - Matrices and arrays introduces matrices and arrays, data structures for storing 2d and higher dimensional data.
 
@@ -269,4 +269,110 @@ typeof(NA)
 
 **MyAns**
 because the logical is the least flexible types
+
+## Attributes
+
+- all objects can have arbitrary additional attributes
+- store metadata about the object
+- Attributes ---> named list (with unique names)
+- attr()
+
+```{r}
+# example: atomic vector
+y <- 1:10
+
+# assigned attributes
+attr(y, "my_attribute") <- "This is a vector"
+attr(y, "my_attribute")
+
+# show the attributes
+y
+attributes(y)
+str(attributes(y))
+```
+
+The structure() function returns a new object with modified attributes:
+```{r}
+structure(1:10, my_attribute = "This is a vector")
+```
+
+By default, most attributes are lost when modifying a vector:
+```{r}
+attributes(y[1])
+attributes(sum(y))
+```
+
+The only attributes not lost are three most important
+- names
+    - a character vector giving each element a name
+    
+- Dimensions
+    - used to turn vectors into matrices and arrays
+    
+- class
+    - used to implement the S3 object system
+    
+functions that get and set those attributes
+- names()
+- dim()
+- class()
+- not attr(x, "names"), attr(x, "dim"), and attr(x, "class")
+
+### Names
+name vector --- three ways
+- when creating it
+    - x <- c(a = 1, b = 2, c = 3)
+    
+- By modifying an existing vector in place
+    - x <- 1:3
+    - names(x) <- c("a", "b", "c")
+    
+- By creating a modified copy of a vector
+    - x <- setNames(1:3, c("a", "b", "c"))
+
+- Names do not have to be unique        
+    - character subsetting si the most important reason to use names
+    - it is most useful when the names are unique
+    
+```{r}
+y <- c(a = 1, 2, 3)
+names(y)
+
+
+z <- c(1, 2, 3)
+names(z)
+
+x <- c(a = 1, b = 2, c = 3)
+names(x)
+x["a"]
+
+x <- c(a = 1, a = 2, c = 3)
+names(x)
+x["a"]
+```
+
+
+You can create a new vector without names using unname(x), or remove names in place with names(x) <- NULL
+```{r}
+x <- c(a = 1, a = 2, c = 3)
+unname(x)
+x
+
+x <- c(a = 1, a = 2, c = 3)
+names(x) <- NULL
+x
+```
+
+
+## Factors
+
+    
+    
+    
+    
+    
+    
+    
+    
+
 
