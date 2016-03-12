@@ -14,7 +14,7 @@ output: html_document
 
 Note that R has no 0-dimensional, or scalar types. Individual numbers or strings, which you might think would be scalars, are actually vectors of length one.
 
-Given an object, the best way to understand what data structures it? composed of is to use str(). str() is short for structure and it gives a compact, human readable description of any R data structure.
+Given an object, the best way to understand what data structures it? composed of is to use str(). **str() is short for structure** and it gives a compact, human readable description of any R data structure.
 
 ### Quiz
 Take this short quiz to determine if you need to read this chapter. If the answers quickly come to mind, you can comfortably skip this chapter. You can check your answers in answers.
@@ -365,14 +365,132 @@ x
 
 
 ## Factors
+a factor a vector that can contain only predefined values, and is used to store categorical data
 
-    
-    
-    
-    
-    
-    
-    
-    
+Two attributes
+- class()
+- levels()
+
+```{r}
+x <- factor(c("a", "b", "b", "a"))
+x
+class(x)
+levels(x)
+```
+
+you cannot use values that are not in the levels
+```{r}
+x[2] <- "c"
+x
+```
+
+you cannot combine factors
+```{r}
+c(factor("a"), factor("b"))
+```
+
+Factors are useful when you know the possible values a variable may take, even if you don・t see all values in a given dataset. Using a factor instead of a character vector makes it obvious when some groups contain no observations:
+```{r}
+sex_char <- c("m", "m", "m")
+sex_factor <- factor(sex_char, levels = c("m", "f"))
+
+table(sex_char)
+table(sex_factor)
+```
+
+Sometime when a data frame is read directly from a file
+-> columns are often factors instead of integers
+-> this is often due na string in the data
+
+this causes problem when reading values 
+```{r}
+z <- read.csv(text = "value\n12\n1\n.\n9")
+typeof(z$value)
+class(z$value)
+as.double(z$value) # we got the levels of a factor
+```
+
+to solve the problem
+```{r}
+z <- read.csv(text = "value\n12\n1\n.\n9", na.strings=".")
+typeof(z$value)
+class(z$value)
+z$value
+```
 
 
+Unfortunately, most data loading functions in R automatically convert character vectors to factors. This is suboptimal, because there・s no way for those functions to know the set of all possible levels or their optimal order. Instead, use the argument stringsAsFactors = FALSE to suppress this behaviour, and then manually convert character vectors to factors using your knowledge of the data. A global option, options(stringsAsFactors = FALSE), is available to control this behaviour, but I don・t recommend using it. Changing a global option may have unexpected consequences when combined with other code (either from packages, or code that you・re source()ing), and global options make code harder to understand because they increase the number of lines you need to read to understand how a single line of code will behave.
+
+
+**While factors look (and often behave) like character vectors, they are actually integers.** Be careful when treating them like strings. Some string methods (like gsub() and grepl()) will coerce factors to strings, while others (like nchar()) will throw an error, and still others (like c()) will use the underlying integer values. For this reason, it・s usually best to explicitly convert factors to character vectors if you need string-like behaviour. In early versions of R, there was a memory advantage to using factors instead of character vectors, but this is no longer the case.
+```{r}
+x <- factor(letters)
+str(x)
+unclass(x)
+```
+
+
+### Exercise
+**Q1**
+An early draft used this code to illustrate structure():
+```{r}
+structure(1:10, my_attribute = "This is a vector")
+```
+
+however, run the follow code
+```{r}
+structure(1:5, comment = "my attribute")
+```
+
+Why? Is the attribute missing
+```{r}
+structure(1:5, comment = "my attribute")
+structure(1:5, comments = "my attribute")
+structure(1:5, list = "my attribute")
+```
+
+```{r}
+help(structure)
+help(comment)
+```
+
+```{r}
+x <- structure(1:5, comment = "my attribute")
+comment(x)
+```
+
+**Q2**
+What happens to a factor when you modify its levels?
+```{r}
+f1 <- factor(letters)
+f1
+
+levels(f1) <- rev(levels(f1))
+f1
+```
+
+**Q3**
+What does this code do? How do f2 and f3 differ from f1?
+```{r}
+f1 <- factor(letters)
+f1
+
+f2 <- rev(factor(letters))
+f2
+
+f3 <- factor(letters, levels = rev(letters))
+f3
+```
+
+MyAns:
+```{r}
+labels(f1)
+labels(f2)
+labels(f3)
+
+levels(f1)
+levels(f2)
+levels(f3)
+```
+
+## Matrices and arrays

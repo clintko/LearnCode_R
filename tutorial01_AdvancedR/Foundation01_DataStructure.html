@@ -93,7 +93,7 @@ img {
 </tbody>
 </table>
 <p>Note that R has no 0-dimensional, or scalar types. Individual numbers or strings, which you might think would be scalars, are actually vectors of length one.</p>
-<p>Given an object, the best way to understand what data structures it’s composed of is to use str(). str() is short for structure and it gives a compact, human readable description of any R data structure.</p>
+<p>Given an object, the best way to understand what data structures it? composed of is to use str(). <strong>str() is short for structure</strong> and it gives a compact, human readable description of any R data structure.</p>
 <div id="quiz" class="section level3">
 <h3>Quiz</h3>
 <p>Take this short quiz to determine if you need to read this chapter. If the answers quickly come to mind, you can comfortably skip this chapter. You can check your answers in answers.</p>
@@ -139,8 +139,8 @@ img {
 <div id="outline" class="section level3">
 <h3>Outline</h3>
 <ul>
-<li><p>Vectors introduces you to atomic vectors and lists, R’s 1d data structures.</p></li>
-<li><p>Attributes takes a small detour to discuss attributes, R’s flexible metadata specification. Here you’ll learn about factors, an important data structure created by setting attributes of an atomic vector.</p></li>
+<li><p>Vectors introduces you to atomic vectors and lists, R? 1d data structures.</p></li>
+<li><p>Attributes takes a small detour to discuss attributes, R? flexible metadata specification. Here you?l learn about factors, an important data structure created by setting attributes of an atomic vector.</p></li>
 <li><p>Matrices and arrays introduces matrices and arrays, data structures for storing 2d and higher dimensional data.</p></li>
 <li><p>Data frames teaches you about the data frame, the most important data structure for storing data in R. Data frames combine the behaviour of lists and matrices to make a structure ideally suited for the needs of statistical data.</p></li>
 </ul>
@@ -407,6 +407,239 @@ as.vector(x)</code></pre>
 <pre><code>## [1] &quot;logical&quot;</code></pre>
 <p><strong>MyAns</strong> because the logical is the least flexible types</p>
 </div>
+</div>
+<div id="attributes" class="section level2">
+<h2>Attributes</h2>
+<ul>
+<li>all objects can have arbitrary additional attributes</li>
+<li>store metadata about the object</li>
+<li>Attributes —&gt; named list (with unique names)</li>
+<li>attr()</li>
+</ul>
+<pre class="r"><code># example: atomic vector
+y &lt;- 1:10
+
+# assigned attributes
+attr(y, &quot;my_attribute&quot;) &lt;- &quot;This is a vector&quot;
+attr(y, &quot;my_attribute&quot;)</code></pre>
+<pre><code>## [1] &quot;This is a vector&quot;</code></pre>
+<pre class="r"><code># show the attributes
+y</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+## attr(,&quot;my_attribute&quot;)
+## [1] &quot;This is a vector&quot;</code></pre>
+<pre class="r"><code>attributes(y)</code></pre>
+<pre><code>## $my_attribute
+## [1] &quot;This is a vector&quot;</code></pre>
+<pre class="r"><code>str(attributes(y))</code></pre>
+<pre><code>## List of 1
+##  $ my_attribute: chr &quot;This is a vector&quot;</code></pre>
+<p>The structure() function returns a new object with modified attributes:</p>
+<pre class="r"><code>structure(1:10, my_attribute = &quot;This is a vector&quot;)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+## attr(,&quot;my_attribute&quot;)
+## [1] &quot;This is a vector&quot;</code></pre>
+<p>By default, most attributes are lost when modifying a vector:</p>
+<pre class="r"><code>attributes(y[1])</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>attributes(sum(y))</code></pre>
+<pre><code>## NULL</code></pre>
+<p>The only attributes not lost are three most important - names - a character vector giving each element a name</p>
+<ul>
+<li>Dimensions
+<ul>
+<li>used to turn vectors into matrices and arrays</li>
+</ul></li>
+<li>class
+<ul>
+<li>used to implement the S3 object system</li>
+</ul></li>
+</ul>
+<p>functions that get and set those attributes - names() - dim() - class() - not attr(x, “names”), attr(x, “dim”), and attr(x, “class”)</p>
+<div id="names" class="section level3">
+<h3>Names</h3>
+<p>name vector — three ways - when creating it - x &lt;- c(a = 1, b = 2, c = 3)</p>
+<ul>
+<li>By modifying an existing vector in place
+<ul>
+<li>x &lt;- 1:3</li>
+<li>names(x) &lt;- c(“a”, “b”, “c”)</li>
+</ul></li>
+<li>By creating a modified copy of a vector
+<ul>
+<li>x &lt;- setNames(1:3, c(“a”, “b”, “c”))</li>
+</ul></li>
+<li>Names do not have to be unique
+<ul>
+<li>character subsetting si the most important reason to use names</li>
+<li>it is most useful when the names are unique</li>
+</ul></li>
+</ul>
+<pre class="r"><code>y &lt;- c(a = 1, 2, 3)
+names(y)</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;&quot;  &quot;&quot;</code></pre>
+<pre class="r"><code>z &lt;- c(1, 2, 3)
+names(z)</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>x &lt;- c(a = 1, b = 2, c = 3)
+names(x)</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot;</code></pre>
+<pre class="r"><code>x[&quot;a&quot;]</code></pre>
+<pre><code>## a 
+## 1</code></pre>
+<pre class="r"><code>x &lt;- c(a = 1, a = 2, c = 3)
+names(x)</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;a&quot; &quot;c&quot;</code></pre>
+<pre class="r"><code>x[&quot;a&quot;]</code></pre>
+<pre><code>## a 
+## 1</code></pre>
+<p>You can create a new vector without names using unname(x), or remove names in place with names(x) &lt;- NULL</p>
+<pre class="r"><code>x &lt;- c(a = 1, a = 2, c = 3)
+unname(x)</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+<pre class="r"><code>x</code></pre>
+<pre><code>## a a c 
+## 1 2 3</code></pre>
+<pre class="r"><code>x &lt;- c(a = 1, a = 2, c = 3)
+names(x) &lt;- NULL
+x</code></pre>
+<pre><code>## [1] 1 2 3</code></pre>
+</div>
+</div>
+<div id="factors" class="section level2">
+<h2>Factors</h2>
+<p>a factor a vector that can contain only predefined values, and is used to store categorical data</p>
+<p>Two attributes - class() - levels()</p>
+<pre class="r"><code>x &lt;- factor(c(&quot;a&quot;, &quot;b&quot;, &quot;b&quot;, &quot;a&quot;))
+x</code></pre>
+<pre><code>## [1] a b b a
+## Levels: a b</code></pre>
+<pre class="r"><code>class(x)</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<pre class="r"><code>levels(x)</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot;</code></pre>
+<p>you cannot use values that are not in the levels</p>
+<pre class="r"><code>x[2] &lt;- &quot;c&quot;</code></pre>
+<pre><code>## Warning in `[&lt;-.factor`(`*tmp*`, 2, value = &quot;c&quot;): invalid factor level, NA
+## generated</code></pre>
+<pre class="r"><code>x</code></pre>
+<pre><code>## [1] a    &lt;NA&gt; b    a   
+## Levels: a b</code></pre>
+<p>you cannot combine factors</p>
+<pre class="r"><code>c(factor(&quot;a&quot;), factor(&quot;b&quot;))</code></pre>
+<pre><code>## [1] 1 1</code></pre>
+<p>Factors are useful when you know the possible values a variable may take, even if you don’t see all values in a given dataset. Using a factor instead of a character vector makes it obvious when some groups contain no observations:</p>
+<pre class="r"><code>sex_char &lt;- c(&quot;m&quot;, &quot;m&quot;, &quot;m&quot;)
+sex_factor &lt;- factor(sex_char, levels = c(&quot;m&quot;, &quot;f&quot;))
+
+table(sex_char)</code></pre>
+<pre><code>## sex_char
+## m 
+## 3</code></pre>
+<pre class="r"><code>table(sex_factor)</code></pre>
+<pre><code>## sex_factor
+## m f 
+## 3 0</code></pre>
+<p>Sometime when a data frame is read directly from a file -&gt; columns are often factors instead of integers -&gt; this is often due na string in the data</p>
+<p>this causes problem when reading values</p>
+<pre class="r"><code>z &lt;- read.csv(text = &quot;value\n12\n1\n.\n9&quot;)
+typeof(z$value)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(z$value)</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<pre class="r"><code>as.double(z$value) # we got the levels of a factor</code></pre>
+<pre><code>## [1] 3 2 1 4</code></pre>
+<p>to solve the problem</p>
+<pre class="r"><code>z &lt;- read.csv(text = &quot;value\n12\n1\n.\n9&quot;, na.strings=&quot;.&quot;)
+typeof(z$value)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>class(z$value)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<pre class="r"><code>z$value</code></pre>
+<pre><code>## [1] 12  1 NA  9</code></pre>
+<p>Unfortunately, most data loading functions in R automatically convert character vectors to factors. This is suboptimal, because there’s no way for those functions to know the set of all possible levels or their optimal order. Instead, use the argument stringsAsFactors = FALSE to suppress this behaviour, and then manually convert character vectors to factors using your knowledge of the data. A global option, options(stringsAsFactors = FALSE), is available to control this behaviour, but I don’t recommend using it. Changing a global option may have unexpected consequences when combined with other code (either from packages, or code that you’re source()ing), and global options make code harder to understand because they increase the number of lines you need to read to understand how a single line of code will behave.</p>
+<p><strong>While factors look (and often behave) like character vectors, they are actually integers.</strong> Be careful when treating them like strings. Some string methods (like gsub() and grepl()) will coerce factors to strings, while others (like nchar()) will throw an error, and still others (like c()) will use the underlying integer values. For this reason, it’s usually best to explicitly convert factors to character vectors if you need string-like behaviour. In early versions of R, there was a memory advantage to using factors instead of character vectors, but this is no longer the case.</p>
+<pre class="r"><code>x &lt;- factor(letters)
+str(x)</code></pre>
+<pre><code>##  Factor w/ 26 levels &quot;a&quot;,&quot;b&quot;,&quot;c&quot;,&quot;d&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...</code></pre>
+<pre class="r"><code>unclass(x)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23
+## [24] 24 25 26
+## attr(,&quot;levels&quot;)
+##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot;
+## [18] &quot;r&quot; &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<div id="exercise" class="section level3">
+<h3>Exercise</h3>
+<p><strong>Q1</strong> An early draft used this code to illustrate structure():</p>
+<pre class="r"><code>structure(1:10, my_attribute = &quot;This is a vector&quot;)</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10
+## attr(,&quot;my_attribute&quot;)
+## [1] &quot;This is a vector&quot;</code></pre>
+<p>however, run the follow code</p>
+<pre class="r"><code>structure(1:5, comment = &quot;my attribute&quot;)</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<p>Why? Is the attribute missing</p>
+<pre class="r"><code>structure(1:5, comment = &quot;my attribute&quot;)</code></pre>
+<pre><code>## [1] 1 2 3 4 5</code></pre>
+<pre class="r"><code>structure(1:5, comments = &quot;my attribute&quot;)</code></pre>
+<pre><code>## [1] 1 2 3 4 5
+## attr(,&quot;comments&quot;)
+## [1] &quot;my attribute&quot;</code></pre>
+<pre class="r"><code>structure(1:5, list = &quot;my attribute&quot;)</code></pre>
+<pre><code>## [1] 1 2 3 4 5
+## attr(,&quot;list&quot;)
+## [1] &quot;my attribute&quot;</code></pre>
+<pre class="r"><code>help(structure)</code></pre>
+<pre><code>## starting httpd help server ... done</code></pre>
+<pre class="r"><code>help(comment)</code></pre>
+<pre class="r"><code>x &lt;- structure(1:5, comment = &quot;my attribute&quot;)
+comment(x)</code></pre>
+<pre><code>## [1] &quot;my attribute&quot;</code></pre>
+<p><strong>Q2</strong> What happens to a factor when you modify its levels?</p>
+<pre class="r"><code>f1 &lt;- factor(letters)
+f1</code></pre>
+<pre><code>##  [1] a b c d e f g h i j k l m n o p q r s t u v w x y z
+## Levels: a b c d e f g h i j k l m n o p q r s t u v w x y z</code></pre>
+<pre class="r"><code>levels(f1) &lt;- rev(levels(f1))
+f1</code></pre>
+<pre><code>##  [1] z y x w v u t s r q p o n m l k j i h g f e d c b a
+## Levels: z y x w v u t s r q p o n m l k j i h g f e d c b a</code></pre>
+<p><strong>Q3</strong> What does this code do? How do f2 and f3 differ from f1?</p>
+<pre class="r"><code>f1 &lt;- factor(letters)
+f1</code></pre>
+<pre><code>##  [1] a b c d e f g h i j k l m n o p q r s t u v w x y z
+## Levels: a b c d e f g h i j k l m n o p q r s t u v w x y z</code></pre>
+<pre class="r"><code>f2 &lt;- rev(factor(letters))
+f2</code></pre>
+<pre><code>##  [1] z y x w v u t s r q p o n m l k j i h g f e d c b a
+## Levels: a b c d e f g h i j k l m n o p q r s t u v w x y z</code></pre>
+<pre class="r"><code>f3 &lt;- factor(letters, levels = rev(letters))
+f3</code></pre>
+<pre><code>##  [1] a b c d e f g h i j k l m n o p q r s t u v w x y z
+## Levels: z y x w v u t s r q p o n m l k j i h g f e d c b a</code></pre>
+<p>MyAns:</p>
+<pre class="r"><code>labels(f1)</code></pre>
+<pre><code>##  [1] &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;4&quot;  &quot;5&quot;  &quot;6&quot;  &quot;7&quot;  &quot;8&quot;  &quot;9&quot;  &quot;10&quot; &quot;11&quot; &quot;12&quot; &quot;13&quot; &quot;14&quot;
+## [15] &quot;15&quot; &quot;16&quot; &quot;17&quot; &quot;18&quot; &quot;19&quot; &quot;20&quot; &quot;21&quot; &quot;22&quot; &quot;23&quot; &quot;24&quot; &quot;25&quot; &quot;26&quot;</code></pre>
+<pre class="r"><code>labels(f2)</code></pre>
+<pre><code>##  [1] &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;4&quot;  &quot;5&quot;  &quot;6&quot;  &quot;7&quot;  &quot;8&quot;  &quot;9&quot;  &quot;10&quot; &quot;11&quot; &quot;12&quot; &quot;13&quot; &quot;14&quot;
+## [15] &quot;15&quot; &quot;16&quot; &quot;17&quot; &quot;18&quot; &quot;19&quot; &quot;20&quot; &quot;21&quot; &quot;22&quot; &quot;23&quot; &quot;24&quot; &quot;25&quot; &quot;26&quot;</code></pre>
+<pre class="r"><code>labels(f3)</code></pre>
+<pre><code>##  [1] &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;4&quot;  &quot;5&quot;  &quot;6&quot;  &quot;7&quot;  &quot;8&quot;  &quot;9&quot;  &quot;10&quot; &quot;11&quot; &quot;12&quot; &quot;13&quot; &quot;14&quot;
+## [15] &quot;15&quot; &quot;16&quot; &quot;17&quot; &quot;18&quot; &quot;19&quot; &quot;20&quot; &quot;21&quot; &quot;22&quot; &quot;23&quot; &quot;24&quot; &quot;25&quot; &quot;26&quot;</code></pre>
+<pre class="r"><code>levels(f1)</code></pre>
+<pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot;
+## [18] &quot;r&quot; &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<pre class="r"><code>levels(f2)</code></pre>
+<pre><code>##  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot;
+## [18] &quot;r&quot; &quot;s&quot; &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot;</code></pre>
+<pre class="r"><code>levels(f3)</code></pre>
+<pre><code>##  [1] &quot;z&quot; &quot;y&quot; &quot;x&quot; &quot;w&quot; &quot;v&quot; &quot;u&quot; &quot;t&quot; &quot;s&quot; &quot;r&quot; &quot;q&quot; &quot;p&quot; &quot;o&quot; &quot;n&quot; &quot;m&quot; &quot;l&quot; &quot;k&quot; &quot;j&quot;
+## [18] &quot;i&quot; &quot;h&quot; &quot;g&quot; &quot;f&quot; &quot;e&quot; &quot;d&quot; &quot;c&quot; &quot;b&quot; &quot;a&quot;</code></pre>
+</div>
+</div>
+<div id="matrices-and-arrays" class="section level2">
+<h2>Matrices and arrays</h2>
 </div>
 </div>
 
