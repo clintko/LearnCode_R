@@ -1,0 +1,51 @@
+---
+title: "Learn_Plotly"
+output: html_document
+---
+
+```{r}
+library(plotly)
+```
+
+```{r}
+d <- diamonds[sample(nrow(diamonds), 1000), ]
+plot_ly(d, x = carat, y = price, text = paste("Clarity: ", clarity),
+        mode = "markers", color = carat, size = carat)
+```
+
+```{r}
+p <- ggplot(data = d, aes(x = carat, y = price)) +
+  geom_point(aes(text = paste("Clarity:", clarity)), size = 4) +
+  geom_smooth(aes(colour = cut, fill = cut)) + facet_wrap(~ cut)
+p
+(gg <- ggplotly(p))
+```
+
+```{r}
+p %>%
+  add_trace(y = fitted(loess(uempmed ~ as.numeric(date)))) %>%
+  layout(title = "Median duration of unemployment (in weeks)",
+         showlegend = FALSE) %>%
+  dplyr::filter(uempmed == max(uempmed)) %>%
+  layout(annotations = list(x = date, y = uempmed, text = "Peak", showarrow = T))
+```
+
+```{r}
+plot_ly(z = volcano, type = "surface")
+```
+
+```{r}
+head(midwest)
+p <- plot_ly(midwest, x = percollege, color = state, type = "box")
+p
+```
+
+# Heat map
+```{r}
+m <- matrix(rnorm(9), nrow = 3, ncol = 3)
+plot_ly(z = m,
+        x = c("a", "b", "c"), 
+        y = c("d", "e", "f"),
+        type = "heatmap")
+```
+

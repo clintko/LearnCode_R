@@ -1,0 +1,56 @@
+---
+title: "Learn_ggplot_heatmap"
+output: html_document
+---
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggvis)
+library(ggplot2)
+library(scales)
+```
+
+```{r}
+nba <- read.csv("http://datasets.flowingdata.com/ppg2008.csv")
+nba$Name <- with(nba, reorder(Name, PTS))
+```
+
+```{r}
+nba.m <- melt(nba)
+nba.g <- nba %>% gather(Variable, Value, -Name)
+```
+
+```{r}
+nba.g2 <- nba.g %>% group_by(Variable) %>% mutate(Rescale=rescale(Value))
+```
+
+```{r}
+gPlot <- ggplot(nba.g2, aes(Variable, Name))
+gPlot + 
+    geom_tile(aes(fill = Rescale), colour = "white") + 
+    scale_fill_gradient(low = "white", high = "steelblue")
+```
+
+```{r}
+base_size <- 9
+gPlot + 
+    geom_tile(aes(fill = Rescale), colour = "white") + 
+    scale_fill_gradient(low = "white", high = "steelblue") +
+    labs(x = "", y = "") + 
+    scale_x_discrete(expand = c(0, 0)) +
+    scale_y_discrete(expand = c(0, 0)) +
+    theme_grey(base_size = base_size) + 
+    theme(axis.text.x = element_text(size = base_size * 0.8, angle = 330, hjust = 0, colour = "grey50"))
+    
+```
+
+```{r}
+nba.g2 %>% 
+  ggvis(~Variable, ~Name, fill = ~Rescale) %>%
+  layer_rects(width = band(), height = band()) %>%
+  scale_nominal("x", padding = 0, points = FALSE) %>%
+  scale_nominal("y", padding = 0, points = FALSE)
+```
+
+

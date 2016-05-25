@@ -1,0 +1,78 @@
+---
+title: "Learn_rCharts"
+output: html_document
+---
+
+About rCharts
+- a way to create interactive javascript visualizations using R
+- You don't have to learn complex tools, like D3
+- You simply work in R learning a minimal amount of new syntaxt
+- written by Ramnath Vaidyanathan (who also write Slidify)
+
+```{r}
+#require(devtools)
+#install_github('rCharts', 'ramnathv')
+library(rCharts)
+workdir <- "C:\\Users\\clint\\GitHub\\LearnCode_R\\02_RPlot\\fig_rCharts"
+```
+
+
+```{r}
+haireye = as.data.frame(HairEyeColor)
+n1 <- nPlot(Freq ~ Hair, 
+      group = 'Eye',
+      type = 'multiBarChart',
+      data = subset(haireye, Sex == 'Male'))
+```
+
+The object n1 contains the plot
+- in RStudio, typing n1 brings up the plot in the RStudio viewer
+- do n1$ then hit TAB to see the various functions contained in teh object
+    - n1$html prints out the html for the plot
+    - n1$save(filename) then bring the code back into slidify document
+    
+```{r}
+r1 <- rPlot(Sepal.Length ~ Sepal.Width | Species,
+            data = iris,
+            color = 'Species',
+            type = 'point')
+r1
+```
+
+
+```{r}
+r2 <-  rPlot(Freq ~ Hair | Eye,
+             color = 'Eye', 
+             data = haireye,
+             type = 'bar')
+r2
+```
+
+
+The next library we will be exploring is MorrisJS.
+
+```{r}
+data(economics, package = "ggplot2")
+econ <- transform(economics, date = as.character(date))
+m1 <- mPlot(x = "date", y = c("psavert", "uempmed"), type = "Line", data = econ)
+m1$set(pointSize = 0, lineWidth = 1)
+m1$print("chart2")
+```
+
+```{r}
+m1
+```
+
+Leaflet
+```{r}
+map3 <- Leaflet$new()
+map3$setView(c(51.505, -0.09), zoom = 13)
+map3$marker(c(51.5, -0.09), bindPopup = "<p> Hi. I am a popup </p>")
+map3$marker(c(51.495, -0.083), bindPopup = "<p> Hi. I am another popup </p>")
+map3$print("chart7")
+```
+
+```{r}
+map3
+```
+
