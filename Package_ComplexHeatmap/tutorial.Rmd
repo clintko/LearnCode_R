@@ -1,0 +1,137 @@
+---
+title: "Untitled"
+author: "Kuei-Yueh Ko"
+date: "October 10, 2017"
+output: html_document
+---
+
+# set environment
+
+ComplexHeatmap  
+http://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html
+```{r}
+## try http:// if https:// URLs are not supported
+source("https://bioconductor.org/biocLite.R")
+biocLite("ComplexHeatmap")
+```
+
+
+# Making A Single Heatmap
+
+
+```{r}
+library(ComplexHeatmap)
+library(circlize)
+
+set.seed(123)
+
+mat = cbind(rbind(matrix(rnorm(16, -1), 4), matrix(rnorm(32, 1), 8)),
+            rbind(matrix(rnorm(24, 1), 4), matrix(rnorm(48, -1), 8)))
+
+# permute the rows and columns
+mat = mat[sample(nrow(mat), nrow(mat)), sample(ncol(mat), ncol(mat))]
+
+rownames(mat) = paste0("R", 1:12)
+colnames(mat) = paste0("C", 1:10)
+
+Heatmap(mat)
+```
+
+## Colors
+```{r}
+mat2 = mat
+mat2[1, 1] = 100000
+Heatmap(mat2, col = colorRamp2(c(-3, 0, 3), c("green", "white", "red")), 
+    cluster_rows = FALSE, cluster_columns = FALSE)
+```
+
+```{r}
+Heatmap(mat, col = rev(rainbow(10)))
+```
+
+
+# Heatmap Annotations
+```{r}
+library(ComplexHeatmap)
+library(circlize)
+
+df = data.frame(type = c(rep("a", 5), rep("b", 5)))
+ha = HeatmapAnnotation(df = df)
+ha
+```
+
+```{r}
+draw(ha, 1:10)
+```
+
+```{r}
+library(ComplexHeatmap)
+library(circlize)
+
+df = data.frame(type = c(rep("a", 5), rep("b", 5)))
+ha = HeatmapAnnotation(df = df)
+ha
+```
+
+```{r}
+df = data.frame(type = c(rep("a", 5), rep("b", 5)),
+                age = sample(1:20, 10))
+
+ha1 = HeatmapAnnotation(
+    df = df,
+    col = list(
+        type = c("a" = "red", "b" = "blue"),
+        age = colorRamp2(c(0, 20), c("white", "red")))
+)
+ha2 = HeatmapAnnotation(df = data.frame(age = sample(1:20, 10)),
+    col = list(age = colorRamp2(c(0, 20), c("white", "red"))))
+
+set.seed(123)
+mat = matrix(rnorm(80, 2), 8, 10)
+mat = rbind(mat, matrix(rnorm(40, -2), 4, 10))
+rownames(mat) = paste0("R", 1:12)
+colnames(mat) = paste0("C", 1:10)
+
+Heatmap(mat, top_annotation = ha1, bottom_annotation = ha2)
+```
+
+# Heatmap Annotations
+
+## Row annotations
+
+```{r}
+set.seed(123)
+mat = matrix(rnorm(80, 2), 8, 10)
+mat = rbind(mat, matrix(rnorm(40, -2), 4, 10))
+rownames(mat) = paste0("R", 1:12)
+colnames(mat) = paste0("C", 1:10)
+```
+
+
+```{r}
+df = data.frame(type = c(rep("a", 6), rep("b", 6)))
+ha = HeatmapAnnotation(
+    df = df, 
+    col = list(type = c("a" = "red", "b" = "blue")),
+    which = "row", width = unit(1, "cm"))
+draw(ha, 1:12)
+```
+
+```{r}
+dim(mat)
+```
+
+
+```{r}
+ha = rowAnnotation(
+    df = df, col = list(type = c("a" = "red", "b" = "blue")),
+    width = unit(1, "cm"))
+ht1 = Heatmap(mat, name = "ht1", show_row_dend = F, cluster_rows = F)
+ha + ht1
+```
+
+
+
+
+
+
