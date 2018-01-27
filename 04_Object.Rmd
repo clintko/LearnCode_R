@@ -1,0 +1,370 @@
+---
+title: "04 Object"
+author: "Clint ko"
+output: html_notebook
+---
+
+
+<a name="Outline"></a>Outline
+
+- [Programming Paradigms](#Paradigms)
+    - [First/second generation](#1st2ndGeneration)
+    - [Procedural Code](#ProceduralProgram)
+    - [Object Programming](#ObjectProgram)
+    - [Functional Programming](#FunctionalProgram)
+    - [Literate Programming](#LiterateProgram)
+- [Object in R](#ObjectR)
+    - [S3 Object](#ObjectS3)
+    - [S4 Object](#ObjectS4)
+    - [Reference Class (RC) Object](#ObjectRC)
+- [S3 Object](#S3)
+- [S4 Object](#S4)
+- [RC Object](#RC)
+
+
+
+# <a name="Paradigms"></a>Programming Paradigms
+[[Back to Outline]](#Outline)
+
+Before talking about object programming in R, it is helpful to talk about types of programming language.
+
+### <a name="1st2ndGeneration"></a>First/second generation
+[[Back to Outline]](#Outline)
+
+- Idea: 
+    - you just want the machine to work
+- Examples
+    - machine code
+    - assembly code 
+        - [mnemonics](http://whatis.techtarget.com/definition/mnemonic)
+        - labels for memory addresses
+        - still used in embedded systems
+
+### <a name="ProceduralProgram"></a>Procedural Programming
+[[Back to Outline]](#Outline)
+
+- Background
+    - personal computers started to appear
+- Idea
+    - how code should be written => structured programming (loops, conditionals)
+- Examples
+    - **COBOL**
+    - **Fortran**
+    - **ALGOL**
+        - Note: paragraph
+    - **Beginners All purpose Symbolic Instruction Code (BASIC)**
+        - Note: goto --- spagetti code
+    - **C**
+        - Note: structure
+
+### <a name="ObjectProgram"></a>Object Programming
+[[Back to Outline]](#Outline)
+
+- Terms
+    - encapsulation
+    - classes
+    - methohds
+    - interaction
+    - inheritance
+    - objects
+- Idea: class
+    - contains both **data** and the **functions** that operate on it.
+- Examples
+    - **C++**
+        - Note: struct (from C) + methods => Class
+    
+    
+### <a name="FunctionalProgram"></a>Functional Programming
+[[Back to Outline]](#Outline)
+
+- Idea
+    - keep functions pure as possible
+    - keep self contained, etc
+- Note
+    - normally, you will always use something from global varaible
+    ex: f <- function(a, b) a + b => '+' is a function from global environment
+
+### <a name="LiterateProgram"></a>Literate Programming
+[[Back to Outline]](#Outline)
+
+- [Definitation](https://en.wikipedia.org/wiki/Literate_programming)
+
+Literate programming is a programming paradigm introduced by Donald Knuth in which a program is given as an explanation of the program logic in a natural language, such as English, interspersed with snippets of macros and traditional source code, from which a compilable source code can be generated.
+
+- Example
+    - **Jupyter**
+    - **R Notebook**
+
+# <a name="ObjectR"></a>Object in R
+
+To talk about object in R, it is important to know that there are three kinds of objects: S3, S4, and RC. They are created in different time in R history.
+
+"S is R is an implementation of the S programming language. S is a statistical programming language developed primarily by John Chambers and (in earlier versions) Rick Becker and Allan Wilks of Bell Laboratories." (from wiki)
+
+- *1976* S (**S**tatistical analysis software) 
+    - Scheme / APL / PPL
+        - [**Scheme**](https://en.wikipedia.org/wiki/Scheme_(programming_language)) --- functional programming
+        - [**APL**](https://en.wikipedia.org/wiki/APL_(programming_language)) --- multi-dimensional array  
+        - [**PPL**](https://en.wikipedia.org/wiki/Polymorphic_Programming_Language) --- interactive
+    - Idea: Turn ideas into software quickly and faithfully
+    - Version
+        - OLD S: interactive way to call C + Fortran
+        - New S: 
+            - rewrite old Fortran using C 
+            - concept of objects (**S3 objects**)
+            - change macros into functions
+        - S4  (last release of S)
+            - provides "more advanced" object orientic features (**S4 objects**)
+- *1993* R
+    - base R is mostly S
+
+### <a name="ObjectS3"></a>S3 Object
+[[Back to Outline]](#Outline)
+
+- just wrapping things together
+- very flexible
+
+### <a name="ObjectS4"></a>S4 Object
+[[Back to Outline]](#Outline)
+
+- more structured
+- error checking
+
+### <a name="ObjectRC"></a>Reference Class (RC) Object
+[[Back to Outline]](#Outline)
+
+- much like the object you have in other languages
+
+# <a name="S3"></a>S3 Object
+[[Back to Outline]](#Outline)
+
+### Example: Summary function in data.frame & lm objects
+```{r}
+data(iris)
+class(iris)
+```
+
+when applying to the summary of iris, it is actually calling "summary.data.frame" function
+```{r}
+summary(iris)
+```
+
+Here we can show that summary(iris) == summary.data.frame(iris)
+```{r}
+summary.data.frame(iris)
+```
+
+same thing go with lm object
+```{r}
+lm_iris <- lm(Sepal.Length ~ Sepal.Width, data = iris)
+class(lm_iris)
+```
+
+Applying summary(lm object) == summary.lm(lm object)
+```{r}
+summary(lm_iris)
+```
+
+```{r}
+summary.lm(lm_iris)
+```
+
+you can create your own summary function for a certain class; just create sumary.<name_of_class>
+```{r}
+summary.lm <- function(x){ print("haha") }
+summary(lm_iris)
+```
+
+
+### Create S3 Objects
+[[Back to Outline]](#Outline)
+
+clean the environment
+```{r}
+rm(list = ls())
+```
+
+```{r}
+Person <- function (x, y) {
+  structure(list(name = x, age = y), class = "Person")
+}
+
+Employee <- function(x, y){
+  structure(list(x, salary = y), class = "Employee")
+}
+```
+
+to create a constructor , you use the function called "structure"
+```{r}
+Person <- function(x, y) {
+    structure(
+        list(name = x, age = y),
+        class = "Person"
+    ) # end struct
+} # end func Person
+
+Employee <- function(x, y) { # the input x will be a Person object
+    structure(
+        list(x, salary = y),
+        class = "Employee"
+    ) # end struct
+} # end func Employee
+```
+
+create instance
+```{r}
+laura <- Person("Laura", 34)
+laura_emp <- Employee(laura, 45)
+```
+
+output a Person object
+```{r}
+print(laura)
+```
+
+output a Employee object
+```{r}
+print(laura_emp)
+```
+
+create a generic function "Raise". What Raise will do is to call the Raise.<class_name>. (Note: what is [generic function](http://www.idc-online.com/technical_references/pdfs/information_technology/Generic_Functions_in_Python.pdf)?)
+```{r}
+Raise <- function(x) UseMethod("Raise", x)
+#?UseMethod
+```
+
+<generic_function>.<class_name>
+```{r}
+Raise.Employee <- function(x){
+   return(x$salary*(1.10))
+}
+```
+
+```{r}
+Raise.Employee(laura_emp)
+```
+
+```{r}
+Raise(laura_emp)
+```
+
+
+# <a name="S4"></a>S4 Object
+[[Back to Outline]](#Outline)
+
+clean the environment
+```{r}
+rm(list = ls())
+```
+
+unlike S3, you do not need to create your own constructor. The function "setClass" will help you to create it
+```{r}
+setClass(
+    "Person", 
+    slots = list(
+        name = "character", 
+        age = "numeric"))
+
+setClass(
+    "Employee",
+    slots = list(
+        salary = "numeric"
+    ), contains = "Person")
+```
+
+use function new to create instances
+```{r}
+alice <- new("Person", name = "Alice", age = 40)
+john  <- new("Employee", name = "John", age = 20, salary = 40)
+```
+
+```{r}
+alice
+```
+
+```{r}
+john
+```
+
+To set generic function in S4 objects
+```{r}
+setGeneric(
+    "Raise", 
+    function(x) standardGeneric("Raise"))
+
+setMethod(
+    "Raise", 
+    "Employee", 
+    function(x) x@salary*(1.10))
+```
+
+```{r}
+Raise(john)
+```
+
+
+# <a name="RC"></a>RC Object
+[[Back to Outline]](#Outline)
+
+```{r}
+rm(list = ls())
+```
+
+In S3, the method is not really tide to the object. The only thing that connect them is the "name". On the other hand, RC object is a method passing object.
+
+you use setRefClass to create a RC objects
+```{r}
+#setRefClass("Polygon", fields = c("sides"))
+#setRefClass("Polygon", fields = list(sides = "numeric"))
+
+Polygon <- setRefClass("Polygon", fields = c("sides"))
+square <- Polygon$new(sides = 4)
+triangle <- Polygon$new(sides = 4)
+```
+
+
+```{r}
+print(Polygon)
+```
+
+
+```{r}
+print(square)
+```
+
+```{r}
+triangle$sides <- 3
+print(triangle)
+```
+
+be careful about this
+```{r}
+triangle <- square
+triangle$sides <- 3
+```
+
+```{r}
+print(triangle)
+```
+
+however, not only the field in triangle is changed but also the field in square
+```{r}
+print(square)
+```
+
+To provide an example of passing reference
+```{r}
+x <- 4 # create x with a value 4
+y <- x # pass the reference to y
+```
+
+```{r}
+# the variable x and y has the same address
+library(data.table)
+print(address(x))
+print(address(y))
+```
+
+- Note: 
+    - the bioconductor mainly use S4 object
+
