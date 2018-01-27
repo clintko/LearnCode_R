@@ -1,1 +1,2 @@
-# LearnCode_R
+# Learn to code in R
+
