@@ -9,6 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Clint ko" />
 
 
 <title>02 Subsetting</title>
@@ -167,14 +168,150 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">02 Subsetting</h1>
+<h4 class="author"><em>Clint ko</em></h4>
 
 </div>
 
 
 <!-- rnb-text-begin -->
+<div id="subset-of-vector" class="section level1">
+<h1>subset of vector</h1>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBybm9ybSgxMClcbnByaW50KHgpXG5gYGAifQ== -->
+<pre class="r"><code>x &lt;- rnorm(10)
+print(x)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSAtMS42MDY2MzU2IC0wLjgwNTAyMTUgLTEuMDc5MjE4MiAgMC42ODQ5MzQ0ICAxLjg4NDUwNTUgLTEuNDcwODE5NiAtMC4yMjIwNzQwICAwLjk0MTg0NjkgIDAuNTY0OTAxM1xuWzEwXSAtMS4wNjQ1ODEzXG4ifQ== -->
+<pre><code> [1] -1.6066356 -0.8050215 -1.0792182  0.6849344  1.8845055 -1.4708196 -0.2220740  0.9418469  0.5649013
+[10] -1.0645813</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoeFsyOjRdKVxuYGBgIn0= -->
+<pre class="r"><code>print(x[2:4])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0wLjgwNTAyMTUgLTEuMDc5MjE4MiAgMC42ODQ5MzQ0XG4ifQ== -->
+<pre><code>[1] -0.8050215 -1.0792182  0.6849344</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoeFtzZXEoZnJvbSA9IDEsIHRvID0gbGVuZ3RoKHgpLCBieSA9IDMpXSlcbmBgYCJ9 -->
+<pre class="r"><code>print(x[seq(from = 1, to = length(x), by = 3)])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0xLjYwNjYzNTYgIDAuNjg0OTM0NCAtMC4yMjIwNzQwIC0xLjA2NDU4MTNcbiJ9 -->
+<pre><code>[1] -1.6066356  0.6849344 -0.2220740 -1.0645813</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoeFt4IDwgMF0pXG5gYGAifQ== -->
+<pre class="r"><code>print(x[x &lt; 0])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0xLjYwNjYzNTYgLTAuODA1MDIxNSAtMS4wNzkyMTgyIC0xLjQ3MDgxOTYgLTAuMjIyMDc0MCAtMS4wNjQ1ODEzXG4ifQ== -->
+<pre><code>[1] -1.6066356 -0.8050215 -1.0792182 -1.4708196 -0.2220740 -1.0645813</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoeFt3aGljaCh4IDwgMCldKVxuYGBgIn0= -->
+<pre class="r"><code>print(x[which(x &lt; 0)])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIC0xLjYwNjYzNTYgLTAuODA1MDIxNSAtMS4wNzkyMTgyIC0xLjQ3MDgxOTYgLTAuMjIyMDc0MCAtMS4wNjQ1ODEzXG4ifQ== -->
+<pre><code>[1] -1.6066356 -0.8050215 -1.0792182 -1.4708196 -0.2220740 -1.0645813</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="subset-of-matrix" class="section level1">
+<h1>subset of matrix</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubWF0IDwtIG1hdHJpeChybm9ybSg0KjYpLCBucm93PTQsIG5jb2w9NilcbiNtYXQgPC0gbWF0cml4KHJub3JtKDQqNiksIG5yb3c9NClcbnByaW50KG1hdClcbmBgYCJ9 -->
+<pre class="r"><code>mat &lt;- matrix(rnorm(4*6), nrow=4, ncol=6)
+#mat &lt;- matrix(rnorm(4*6), nrow=4)
+print(mat)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgIFssMV0gICAgICAgIFssMl0gICAgICAgWywzXSAgICAgICBbLDRdICAgICAgIFssNV0gICAgICAgWyw2XVxuWzEsXSAgMS40NTIwMjUgIDAuNzEyNjUwNzkgIDAuMTE2MzAxNyAtMi40NDQzNjA1ICAwLjQ5MzM1ODkgLTAuMjMzOTU1NVxuWzIsXSAtMS40NDQyMzAgLTAuODk5ODY5NDggLTAuMjgxMTAxOCAtMC44NjMyMzIzICAwLjI5MjEyNTMgIDEuMDEyMjEzMlxuWzMsXSAtMC43NTQwMDAgLTAuMDIwNDEwNTYgIDAuNDA5MzcwMiAgMC4zNzgzNDg5ICAwLjU3MjAyMTEgIDAuMjc4ODUzMVxuWzQsXSAgMS4wNTAwMTMgIDEuMjY5Njc1NTkgIDAuNDk3ODQyNyAgMS43ODI2MzExIC0wLjIxNDI4MzYgLTAuNjcwMTM1OVxuIn0= -->
+<pre><code>          [,1]        [,2]       [,3]       [,4]       [,5]       [,6]
+[1,]  1.452025  0.71265079  0.1163017 -2.4443605  0.4933589 -0.2339555
+[2,] -1.444230 -0.89986948 -0.2811018 -0.8632323  0.2921253  1.0122132
+[3,] -0.754000 -0.02041056  0.4093702  0.3783489  0.5720211  0.2788531
+[4,]  1.050013  1.26967559  0.4978427  1.7826311 -0.2142836 -0.6701359</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2F0KFwiVGhlIG9yaWduYWwgbWF0cml4XFxuXCIpXG5gYGAifQ== -->
+<pre class="r"><code>cat(&quot;The orignal matrix\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIG9yaWduYWwgbWF0cml4XG4ifQ== -->
+<pre><code>The orignal matrix</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQobWF0KVxuYGBgIn0= -->
+<pre class="r"><code>print(mat)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgIFssMV0gICAgICAgIFssMl0gICAgICAgWywzXSAgICAgICBbLDRdICAgICAgIFssNV0gICAgICAgWyw2XVxuWzEsXSAgMS40NTIwMjUgIDAuNzEyNjUwNzkgIDAuMTE2MzAxNyAtMi40NDQzNjA1ICAwLjQ5MzM1ODkgLTAuMjMzOTU1NVxuWzIsXSAtMS40NDQyMzAgLTAuODk5ODY5NDggLTAuMjgxMTAxOCAtMC44NjMyMzIzICAwLjI5MjEyNTMgIDEuMDEyMjEzMlxuWzMsXSAtMC43NTQwMDAgLTAuMDIwNDEwNTYgIDAuNDA5MzcwMiAgMC4zNzgzNDg5ICAwLjU3MjAyMTEgIDAuMjc4ODUzMVxuWzQsXSAgMS4wNTAwMTMgIDEuMjY5Njc1NTkgIDAuNDk3ODQyNyAgMS43ODI2MzExIC0wLjIxNDI4MzYgLTAuNjcwMTM1OVxuIn0= -->
+<pre><code>          [,1]        [,2]       [,3]       [,4]       [,5]       [,6]
+[1,]  1.452025  0.71265079  0.1163017 -2.4443605  0.4933589 -0.2339555
+[2,] -1.444230 -0.89986948 -0.2811018 -0.8632323  0.2921253  1.0122132
+[3,] -0.754000 -0.02041056  0.4093702  0.3783489  0.5720211  0.2788531
+[4,]  1.050013  1.26967559  0.4978427  1.7826311 -0.2142836 -0.6701359</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2F0KFwiVGhlIGZpcnN0IHJvd1xcblwiKVxuYGBgIn0= -->
+<pre class="r"><code>cat(&quot;The first row\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIGZpcnN0IHJvd1xuIn0= -->
+<pre><code>The first row</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQobWF0WzEsXSlcbmBgYCJ9 -->
+<pre class="r"><code>print(mat[1,])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdICAxLjQ1MjAyNDkgIDAuNzEyNjUwOCAgMC4xMTYzMDE3IC0yLjQ0NDM2MDUgIDAuNDkzMzU4OSAtMC4yMzM5NTU1XG4ifQ== -->
+<pre><code>[1]  1.4520249  0.7126508  0.1163017 -2.4443605  0.4933589 -0.2339555</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2F0KFwiVGhlIGZpcnN0IHJvdyAoRHJvcD1GYWxzZSlcXG5cIilcbmBgYCJ9 -->
+<pre class="r"><code>cat(&quot;The first row (Drop=False)\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIGZpcnN0IHJvdyAoRHJvcD1GYWxzZSlcbiJ9 -->
+<pre><code>The first row (Drop=False)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQobWF0WzEsLGRyb3A9RkFMU0VdKVxuYGBgIn0= -->
+<pre class="r"><code>print(mat[1,,drop=FALSE])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgWywxXSAgICAgIFssMl0gICAgICBbLDNdICAgICAgWyw0XSAgICAgIFssNV0gICAgICAgWyw2XVxuWzEsXSAxLjQ1MjAyNSAwLjcxMjY1MDggMC4xMTYzMDE3IC0yLjQ0NDM2MSAwLjQ5MzM1ODkgLTAuMjMzOTU1NVxuIn0= -->
+<pre><code>         [,1]      [,2]      [,3]      [,4]      [,5]       [,6]
+[1,] 1.452025 0.7126508 0.1163017 -2.444361 0.4933589 -0.2339555</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2F0KFwiVGhlIGZpcnN0IGNvbHVtblxcblwiKVxuYGBgIn0= -->
+<pre class="r"><code>cat(&quot;The first column\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIGZpcnN0IGNvbHVtblxuIn0= -->
+<pre><code>The first column</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQobWF0WywxXSlcbmBgYCJ9 -->
+<pre class="r"><code>print(mat[,1])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdICAxLjQ1MjAyNSAtMS40NDQyMzAgLTAuNzU0MDAwICAxLjA1MDAxM1xuIn0= -->
+<pre><code>[1]  1.452025 -1.444230 -0.754000  1.050013</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2F0KFwiVGhlIGZpcnN0IGNvbHVtbiAoRHJvcD1GYWxzZSlcXG5cIilcbmBgYCJ9 -->
+<pre class="r"><code>cat(&quot;The first column (Drop=False)\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiVGhlIGZpcnN0IGNvbHVtbiAoRHJvcD1GYWxzZSlcbiJ9 -->
+<pre><code>The first column (Drop=False)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQobWF0WywxLGRyb3A9RkFMU0VdKVxuYGBgIn0= -->
+<pre class="r"><code>print(mat[,1,drop=FALSE])</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgICAgIFssMV1cblsxLF0gIDEuNDUyMDI1XG5bMixdIC0xLjQ0NDIzMFxuWzMsXSAtMC43NTQwMDBcbls0LF0gIDEuMDUwMDEzXG4ifQ== -->
+<pre><code>          [,1]
+[1,]  1.452025
+[2,] -1.444230
+[3,] -0.754000
+[4,]  1.050013</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDIgU3Vic2V0dGluZyIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDIgU3Vic2V0dGluZyIKYXV0aG9yOiAiQ2xpbnQga28iCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCiMgc3Vic2V0IG9mIHZlY3RvcgoKYGBge3J9CnggPC0gcm5vcm0oMTApCnByaW50KHgpCmBgYAoKYGBge3J9CnByaW50KHhbMjo0XSkKcHJpbnQoeFtzZXEoZnJvbSA9IDEsIHRvID0gbGVuZ3RoKHgpLCBieSA9IDMpXSkKcHJpbnQoeFt4IDwgMF0pCnByaW50KHhbd2hpY2goeCA8IDApXSkKYGBgCgojIHN1YnNldCBvZiBtYXRyaXgKCmBgYHtyfQptYXQgPC0gbWF0cml4KHJub3JtKDQqNiksIG5yb3c9NCwgbmNvbD02KQojbWF0IDwtIG1hdHJpeChybm9ybSg0KjYpLCBucm93PTQpCnByaW50KG1hdCkKYGBgCgpgYGB7cn0KY2F0KCJUaGUgb3JpZ25hbCBtYXRyaXhcbiIpCnByaW50KG1hdCkKY2F0KCJUaGUgZmlyc3Qgcm93XG4iKQpwcmludChtYXRbMSxdKQpjYXQoIlRoZSBmaXJzdCByb3cgKERyb3A9RmFsc2UpXG4iKQpwcmludChtYXRbMSwsZHJvcD1GQUxTRV0pCmNhdCgiVGhlIGZpcnN0IGNvbHVtblxuIikKcHJpbnQobWF0WywxXSkKY2F0KCJUaGUgZmlyc3QgY29sdW1uIChEcm9wPUZhbHNlKVxuIikKcHJpbnQobWF0WywxLGRyb3A9RkFMU0VdKQpgYGAKCg==</div>
 
 
 

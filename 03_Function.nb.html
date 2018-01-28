@@ -174,12 +174,208 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
-<div id="section" class="section level1">
-<h1></h1>
+<div id="three-components-of-a-function" class="section level1">
+<h1>Three Components of a function</h1>
+<ul>
+<li><strong>body</strong> — code</li>
+<li><strong>formals</strong> — arguments</li>
+<li><strong>environment</strong> — where the function exists</li>
+</ul>
+<p>Normally, a function contains these three components and it can be treated as an object.<br />
+<strong>Exception: Primitive function</strong></p>
+</div>
+<div id="wickhams-principles" class="section level1">
+<h1>Wickham’s Principles</h1>
+<ul>
+<li><strong>name masking</strong> — lexical scoping and environment</li>
+<li><strong>functions vs variables (no diff)</strong> — pass function as an object</li>
+<li><strong>fresh start</strong> — memoryless</li>
+<li><strong>dynamic lookups</strong> — how R search for the value of a variable</li>
+</ul>
+<p>All function can lookup to the variable defined in global environment.</p>
+</div>
+<div id="examples" class="section level1">
+<h1>Examples</h1>
+<p><strong>All function can lookup to the variable defined in global environment.</strong></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZiA8LSBmdW5jdGlvbigpIHhcbnggPC0gMjBcbmNhdChcIjFzdCBjYWxsOlwiLCBmKCksIFwiXFxuXCIpXG5gYGAifQ== -->
+<pre class="r"><code>f &lt;- function() x
+x &lt;- 20
+cat(&quot;1st call:&quot;, f(), &quot;\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiMXN0IGNhbGw6IDIwIFxuIn0= -->
+<pre><code>1st call: 20 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSAxMFxuY2F0KFwiMm5kIGNhbGw6XCIsIGYoKSwgXCJcXG5cIilcbmBgYCJ9 -->
+<pre class="r"><code>x &lt;- 10
+cat(&quot;2nd call:&quot;, f(), &quot;\n&quot;)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiMm5kIGNhbGw6IDEwIFxuIn0= -->
+<pre><code>2nd call: 10 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Test global and local variables</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZiA8LSBmdW5jdGlvbih4KXtcbiAgICB5IDwtIHgrMlxufVxuZigyKSAgICAgICAgIyBhc3NpZ25tZW50IGRvZXMgbm90IHJldHVybiB0aGluZ3NcbnByaW50KGYoMikpICMgaXQgZm9yY2UgdGhlIGZ1bmN0aW9uIHRvIG91dHB1dCB0aGUgdmFsdWVcbmBgYCJ9 -->
+<pre class="r"><code>f &lt;- function(x){
+    y &lt;- x+2
+}
+f(2)        # assignment does not return things
+print(f(2)) # it force the function to output the value</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDRcbiJ9 -->
+<pre><code>[1] 4</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuKGYoMikpICAgICAgIyBpdCBmb3JjZSB0aGUgZnVuY3Rpb24gdG8gb3V0cHV0IHRoZSB2YWx1ZVxuYGBgIn0= -->
+<pre class="r"><code>(f(2))      # it force the function to output the value</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDRcbiJ9 -->
+<pre><code>[1] 4</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueSA8LSAzICAgICAgIyBhc3NpZ24gZ2xvYmFsbHlcbihmKDIpKSAgICAgICMgbmFtZSBtYXNraW5nIC0tLT4gaW5zaWRlIGYsIHRoZXJlIGlzIGEgbG9jYWwgdmFyaWFibGUgJ3knXG5gYGAifQ== -->
+<pre class="r"><code>y &lt;- 3      # assign globally
+(f(2))      # name masking ---&gt; inside f, there is a local variable 'y'</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDRcbiJ9 -->
+<pre><code>[1] 4</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueSAgICAgICAgICAgIyBnbG9iYWxseVxuYGBgIn0= -->
+<pre class="r"><code>y           # globally</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDNcbiJ9 -->
+<pre><code>[1] 3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>if there is a typo, you might get unexpected results</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuRm9vYmFyIDwtIDZcbmYgPC0gZnVuY3Rpb24oZm9vYmFyKSB7XG4gICAgcmV0dXJuIChGb29iYXIgKyAxKVxufVxuZig0KVxuYGBgIn0= -->
+<pre class="r"><code>Foobar &lt;- 6
+f &lt;- function(foobar) {
+    return (Foobar + 1)
+}
+f(4)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDdcbiJ9 -->
+<pre><code>[1] 7</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>To avoid such errors, you can use findGlobals function in library codetools</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29kZXRvb2xzOjpmaW5kR2xvYmFscyhmKVxuXG5gYGAifQ== -->
+<pre class="r"><code>codetools::findGlobals(f)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIFwie1wiICAgICAgXCIrXCIgICAgICBcIkZvb2JhclwiIFwicmV0dXJuXCJcbiJ9 -->
+<pre><code>[1] &quot;{&quot;      &quot;+&quot;      &quot;Foobar&quot; &quot;return&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><strong>take away messageg: </strong><br />
+make your function self-contain as possible, don’t assume you will get values from global environment</p>
+<ul>
+<li>Note
+<ul>
+<li>functional programming
+<ul>
+<li>self-contained as possibile</li>
+<li>no side effects (side effect: change values outside the environment of the function)</li>
+<li><strong>some exception: par, setwd</strong></li>
+</ul></li>
+<li>in compiling language, the compiler check the type of each variable</li>
+<li>in scripting language, such check does not existc</li>
+</ul></li>
+</ul>
+</div>
+<div id="calling-functions" class="section level1">
+<h1>Calling functions</h1>
+<p>when calling functions, R looks for a function’s:</p>
+<ul>
+<li><strong>named</strong></li>
+<li><strong>prefix</strong></li>
+<li><strong>positition</strong></li>
+</ul>
+<pre><code># position variables
+f1 &lt;- function(a, b){
+    a * (a + b)
+}
+
+f1(3, 4) # matched by position / order of arguments
+
+# named variables
+f2 &lt;- function(a = 1, b = 2){
+    a * (a + b)
+}
+
+f2(b = 2, a = 1) # matched by name
+
+# prefix matching
+f3 &lt;- function(xx){
+    return(xx)
+}
+
+f3(x = 3) # matched by prefix</code></pre>
+<ul>
+<li>Note:
+<ul>
+<li>use position when it is extremely obvious (ex: rnorm)</li>
+<li><strong>dont ever use prefix matching</strong></li>
+</ul></li>
+</ul>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucm5vcm1cbmBgYCJ9 -->
+<pre class="r"><code>rnorm</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiZnVuY3Rpb24gKG4sIG1lYW4gPSAwLCBzZCA9IDEpIFxuLkNhbGwoQ19ybm9ybSwgbiwgbWVhbiwgc2QpXG48Ynl0ZWNvZGU6IDB4N2UyOTZkOD5cbjxlbnZpcm9ubWVudDogbmFtZXNwYWNlOnN0YXRzPlxuIn0= -->
+<pre><code>function (n, mean = 0, sd = 1) 
+.Call(C_rnorm, n, mean, sd)
+&lt;bytecode: 0x7e296d8&gt;
+&lt;environment: namespace:stats&gt;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBuICAgICAgICAtLS0gcG9zaXRpb25cbiMgbWVhbiwgc2QgLS0tIG5hbWVcbmBgYCJ9 -->
+<pre class="r"><code># n        --- position
+# mean, sd --- name</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="prefix-infix" class="section level1">
+<h1>Prefix &amp; Infix</h1>
+<p>prefix infix (ex: <code>+</code>)</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuMSArIDNcblxuYGBgIn0= -->
+<pre class="r"><code>1 + 3
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDRcbiJ9 -->
+<pre><code>[1] 4</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYCtgKDEsIDIpXG5cbmBgYCJ9 -->
+<pre class="r"><code>`+`(1, 2)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDNcbiJ9 -->
+<pre><code>[1] 3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>To create your own infix function, use %&lt;…&gt;%</p>
 <!-- rnb-text-end -->
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDMgRnVuY3Rpb24iCmF1dGhvcjogIkNsaW50IGtvIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgoj</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDMgRnVuY3Rpb24iCmF1dGhvcjogIkNsaW50IGtvIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgojIFRocmVlIENvbXBvbmVudHMgb2YgYSBmdW5jdGlvbgoKLSAqKmJvZHkqKiAgICAgICAgLS0tIGNvZGUKLSAqKmZvcm1hbHMqKiAgICAgLS0tIGFyZ3VtZW50cwotICoqZW52aXJvbm1lbnQqKiAtLS0gd2hlcmUgdGhlIGZ1bmN0aW9uIGV4aXN0cwoKTm9ybWFsbHksIGEgZnVuY3Rpb24gY29udGFpbnMgdGhlc2UgdGhyZWUgY29tcG9uZW50cyBhbmQgaXQgY2FuIGJlIHRyZWF0ZWQgYXMgYW4gb2JqZWN0LiAgCioqRXhjZXB0aW9uOiBQcmltaXRpdmUgZnVuY3Rpb24qKgoKIyBXaWNraGFtJ3MgUHJpbmNpcGxlcwoKLSAqKm5hbWUgbWFza2luZyoqICAgICAgICAgICAgICAgICAgICAgLS0tIGxleGljYWwgc2NvcGluZyBhbmQgZW52aXJvbm1lbnQKLSAqKmZ1bmN0aW9ucyB2cyB2YXJpYWJsZXMgKG5vIGRpZmYpKiogLS0tIHBhc3MgZnVuY3Rpb24gYXMgYW4gb2JqZWN0Ci0gKipmcmVzaCBzdGFydCoqICAgICAgICAgICAgICAgICAgICAgIC0tLSBtZW1vcnlsZXNzCi0gKipkeW5hbWljIGxvb2t1cHMqKiAgICAgICAgICAgICAgICAgIC0tLSBob3cgUiBzZWFyY2ggZm9yIHRoZSB2YWx1ZSBvZiBhIHZhcmlhYmxlCgpBbGwgZnVuY3Rpb24gY2FuIGxvb2t1cCB0byB0aGUgdmFyaWFibGUgZGVmaW5lZCBpbiBnbG9iYWwgZW52aXJvbm1lbnQuCgojIEV4YW1wbGVzCgoqKkFsbCBmdW5jdGlvbiBjYW4gbG9va3VwIHRvIHRoZSB2YXJpYWJsZSBkZWZpbmVkIGluIGdsb2JhbCBlbnZpcm9ubWVudC4qKgpgYGB7cn0KZiA8LSBmdW5jdGlvbigpIHgKeCA8LSAyMApjYXQoIjFzdCBjYWxsOiIsIGYoKSwgIlxuIikKCnggPC0gMTAKY2F0KCIybmQgY2FsbDoiLCBmKCksICJcbiIpCmBgYAoKVGVzdCBnbG9iYWwgYW5kIGxvY2FsIHZhcmlhYmxlcwpgYGB7cn0KZiA8LSBmdW5jdGlvbih4KXsKICAgIHkgPC0geCsyCn0KZigyKSAgICAgICAgIyBhc3NpZ25tZW50IGRvZXMgbm90IHJldHVybiB0aGluZ3MKcHJpbnQoZigyKSkgIyBpdCBmb3JjZSB0aGUgZnVuY3Rpb24gdG8gb3V0cHV0IHRoZSB2YWx1ZQooZigyKSkgICAgICAjIGl0IGZvcmNlIHRoZSBmdW5jdGlvbiB0byBvdXRwdXQgdGhlIHZhbHVlCnkgPC0gMyAgICAgICMgYXNzaWduIGdsb2JhbGx5CihmKDIpKSAgICAgICMgbmFtZSBtYXNraW5nIC0tLT4gaW5zaWRlIGYsIHRoZXJlIGlzIGEgbG9jYWwgdmFyaWFibGUgJ3knCnkgICAgICAgICAgICMgZ2xvYmFsbHkKYGBgCgppZiB0aGVyZSBpcyBhIHR5cG8sIHlvdSBtaWdodCBnZXQgdW5leHBlY3RlZCByZXN1bHRzCmBgYHtyfQpGb29iYXIgPC0gNgpmIDwtIGZ1bmN0aW9uKGZvb2JhcikgewogICAgcmV0dXJuIChGb29iYXIgKyAxKQp9CmYoNCkKYGBgCgpUbyBhdm9pZCBzdWNoIGVycm9ycywgeW91IGNhbiB1c2UgZmluZEdsb2JhbHMgZnVuY3Rpb24gaW4gbGlicmFyeSBjb2RldG9vbHMKYGBge3J9CmNvZGV0b29sczo6ZmluZEdsb2JhbHMoZikKYGBgCgoqKnRha2UgYXdheSBtZXNzYWdlZzogKiogIAptYWtlIHlvdXIgZnVuY3Rpb24gc2VsZi1jb250YWluIGFzIHBvc3NpYmxlLCBkb24ndCBhc3N1bWUgeW91IHdpbGwgZ2V0IHZhbHVlcyBmcm9tIGdsb2JhbCBlbnZpcm9ubWVudAoKLSBOb3RlCiAgICAtIGZ1bmN0aW9uYWwgcHJvZ3JhbW1pbmcKICAgICAgICAtIHNlbGYtY29udGFpbmVkIGFzIHBvc3NpYmlsZQogICAgICAgIC0gbm8gc2lkZSBlZmZlY3RzIChzaWRlIGVmZmVjdDogY2hhbmdlIHZhbHVlcyBvdXRzaWRlIHRoZSBlbnZpcm9ubWVudCBvZiB0aGUgZnVuY3Rpb24pCiAgICAgICAgLSAqKnNvbWUgZXhjZXB0aW9uOiBwYXIsIHNldHdkKioKICAgIC0gaW4gY29tcGlsaW5nIGxhbmd1YWdlLCB0aGUgY29tcGlsZXIgY2hlY2sgdGhlIHR5cGUgb2YgZWFjaCB2YXJpYWJsZQogICAgLSBpbiBzY3JpcHRpbmcgbGFuZ3VhZ2UsIHN1Y2ggY2hlY2sgZG9lcyBub3QgZXhpc3RjCgoKIyBDYWxsaW5nIGZ1bmN0aW9ucwp3aGVuIGNhbGxpbmcgZnVuY3Rpb25zLCBSIGxvb2tzIGZvciBhIGZ1bmN0aW9uJ3M6CgotICoqbmFtZWQqKgotICoqcHJlZml4KioKLSAqKnBvc2l0aXRpb24qKgoKYGBgCiMgcG9zaXRpb24gdmFyaWFibGVzCmYxIDwtIGZ1bmN0aW9uKGEsIGIpewogICAgYSAqIChhICsgYikKfQoKZjEoMywgNCkgIyBtYXRjaGVkIGJ5IHBvc2l0aW9uIC8gb3JkZXIgb2YgYXJndW1lbnRzCgojIG5hbWVkIHZhcmlhYmxlcwpmMiA8LSBmdW5jdGlvbihhID0gMSwgYiA9IDIpewogICAgYSAqIChhICsgYikKfQoKZjIoYiA9IDIsIGEgPSAxKSAjIG1hdGNoZWQgYnkgbmFtZQoKIyBwcmVmaXggbWF0Y2hpbmcKZjMgPC0gZnVuY3Rpb24oeHgpewogICAgcmV0dXJuKHh4KQp9CgpmMyh4ID0gMykgIyBtYXRjaGVkIGJ5IHByZWZpeApgYGAKCi0gTm90ZTogCiAgICAtIHVzZSBwb3NpdGlvbiB3aGVuIGl0IGlzIGV4dHJlbWVseSBvYnZpb3VzIChleDogcm5vcm0pCiAgICAtICoqZG9udCBldmVyIHVzZSBwcmVmaXggbWF0Y2hpbmcqKgoKYGBge3J9CnJub3JtCiMgbiAgICAgICAgLS0tIHBvc2l0aW9uCiMgbWVhbiwgc2QgLS0tIG5hbWUKYGBgCgojIFByZWZpeCAmIEluZml4CgpwcmVmaXgKaW5maXggKGV4OiBgK2ApCgpgYGB7cn0KMSArIDMKYGBgCgpgYGB7cn0KYCtgKDEsIDIpCmBgYAoKVG8gY3JlYXRlIHlvdXIgb3duIGluZml4IGZ1bmN0aW9uLCB1c2UgJTwuLi4+JQ==</div>
 
 
 

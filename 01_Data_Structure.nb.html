@@ -9,6 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Clint ko" />
 
 
 <title>01 Data Structure</title>
@@ -167,14 +168,144 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">01 Data Structure</h1>
+<h4 class="author"><em>Clint ko</em></h4>
 
 </div>
 
 
 <!-- rnb-text-begin -->
+<ul>
+<li>Vector
+<ul>
+<li>atomic vector</li>
+<li>list</li>
+<li>factor</li>
+</ul></li>
+<li>Matrix</li>
+<li>List</li>
+<li>Data.Frame</li>
+<li>Tibble (a more general data frame)</li>
+</ul>
+<div id="atomic-vector" class="section level1">
+<h1>Atomic Vector</h1>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBjKDEsMiwzKVxueSA8LSAxOjNcbnogPC0gc2VxKGZyb209MSwgdG89MywgYnk9MSlcbnByaW50KHgpXG5gYGAifQ== -->
+<pre class="r"><code>x &lt;- c(1,2,3)
+y &lt;- 1:3
+z &lt;- seq(from=1, to=3, by=1)
+print(x)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEgMiAzXG4ifQ== -->
+<pre><code>[1] 1 2 3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoeSlcbmBgYCJ9 -->
+<pre class="r"><code>print(y)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEgMiAzXG4ifQ== -->
+<pre><code>[1] 1 2 3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucHJpbnQoeilcbmBgYCJ9 -->
+<pre class="r"><code>print(z)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEgMiAzXG4ifQ== -->
+<pre><code>[1] 1 2 3</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXllMyA8LSBtYXRyaXgoYygxLDAsMCwwLDEsMCwwLDAsMSksIG5yb3c9MywgbmNvbD0zKVxucHJpbnQoZXllMylcbmBgYCJ9 -->
+<pre class="r"><code>eye3 &lt;- matrix(c(1,0,0,0,1,0,0,0,1), nrow=3, ncol=3)
+print(eye3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICBbLDFdIFssMl0gWywzXVxuWzEsXSAgICAxICAgIDAgICAgMFxuWzIsXSAgICAwICAgIDEgICAgMFxuWzMsXSAgICAwICAgIDAgICAgMVxuIn0= -->
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZXllMyA8LSBkaWFnKGMoMSwgMSwgMSkpXG5wcmludChleWUzKVxuYGBgIn0= -->
+<pre class="r"><code>eye3 &lt;- diag(c(1, 1, 1))
+print(eye3)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICBbLDFdIFssMl0gWywzXVxuWzEsXSAgICAxICAgIDAgICAgMFxuWzIsXSAgICAwICAgIDEgICAgMFxuWzMsXSAgICAwICAgIDAgICAgMVxuIn0= -->
+<pre><code>     [,1] [,2] [,3]
+[1,]    1    0    0
+[2,]    0    1    0
+[3,]    0    0    1</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="attributes" class="section level1">
+<h1>Attributes</h1>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBybm9ybSgyMClcbnByaW50KHgpXG5gYGAifQ== -->
+<pre class="r"><code>x &lt;- rnorm(20)
+print(x)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSAgMC4xMDYzODQwICAwLjU5NTI4NzkgIDAuNzYyNzYzNyAtMC4zNDE3MDQ5ICAxLjYxMTg2MjEgLTAuMzE2MjkzMiAtMS40NDk1NzkwICAwLjQ1MDY0NzIgIDEuMTI5ODk5N1xuWzEwXSAtMS45NTgwMDgzIC0wLjE2MzgxOTYgLTIuMDgxOTE0MSAtMS4wMTQxOTc5ICAwLjExMjM2MjkgLTEuMjk4NTk3NSAtMC45MjI2MTExIC0xLjMxMjc2MzEgLTAuMTQyNTYyMlxuWzE5XSAtMi4zMDQ4ODM0ICAwLjY5NTg2ODRcbiJ9 -->
+<pre><code> [1]  0.1063840  0.5952879  0.7627637 -0.3417049  1.6118621 -0.3162932 -1.4495790  0.4506472  1.1298997
+[10] -1.9580083 -0.1638196 -2.0819141 -1.0141979  0.1123629 -1.2985975 -0.9226111 -1.3127631 -0.1425622
+[19] -2.3048834  0.6958684</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoeClcblxuYGBgIn0= -->
+<pre class="r"><code>names(x)
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIjQxXCIgXCI0MlwiIFwiNDNcIiBcIjQ0XCIgXCI0NVwiIFwiNDZcIiBcIjQ3XCIgXCI0OFwiIFwiNDlcIiBcIjUwXCIgXCI1MVwiIFwiNTJcIiBcIjUzXCIgXCI1NFwiIFwiNTVcIiBcIjU2XCIgXCI1N1wiIFwiNThcIiBcIjU5XCIgXCI2MFwiXG4ifQ== -->
+<pre><code> [1] &quot;41&quot; &quot;42&quot; &quot;43&quot; &quot;44&quot; &quot;45&quot; &quot;46&quot; &quot;47&quot; &quot;48&quot; &quot;49&quot; &quot;50&quot; &quot;51&quot; &quot;52&quot; &quot;53&quot; &quot;54&quot; &quot;55&quot; &quot;56&quot; &quot;57&quot; &quot;58&quot; &quot;59&quot; &quot;60&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoeCkgPC0gNDE6NjBcbm5hbWVzKHgpXG5gYGAifQ== -->
+<pre class="r"><code>names(x) &lt;- 41:60
+names(x)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiIFsxXSBcIjQxXCIgXCI0MlwiIFwiNDNcIiBcIjQ0XCIgXCI0NVwiIFwiNDZcIiBcIjQ3XCIgXCI0OFwiIFwiNDlcIiBcIjUwXCIgXCI1MVwiIFwiNTJcIiBcIjUzXCIgXCI1NFwiIFwiNTVcIiBcIjU2XCIgXCI1N1wiIFwiNThcIiBcIjU5XCIgXCI2MFwiXG4ifQ== -->
+<pre><code> [1] &quot;41&quot; &quot;42&quot; &quot;43&quot; &quot;44&quot; &quot;45&quot; &quot;46&quot; &quot;47&quot; &quot;48&quot; &quot;49&quot; &quot;50&quot; &quot;51&quot; &quot;52&quot; &quot;53&quot; &quot;54&quot; &quot;55&quot; &quot;56&quot; &quot;57&quot; &quot;58&quot; &quot;59&quot; &quot;60&quot;</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<div id="you-can-subset-with-names" class="section level2">
+<h2>you can subset with names</h2>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueFs1OV0gIyBpdCBpcyBpbnRlcnByZXRpbmcgNTkgYXMgaW50ZWdlciBpbmRleFxuXG5gYGAifQ== -->
+<pre class="r"><code>x[59] # it is interpreting 59 as integer index
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiPE5BPiBcbiAgTkEgXG4ifQ== -->
+<pre><code>&lt;NA&gt; 
+  NA </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueFtcIjU5XCJdXG5cbmBgYCJ9 -->
+<pre class="r"><code>x[&quot;59&quot;]
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIDU5IFxuLTIuMzA0ODgzIFxuIn0= -->
+<pre><code>       59 
+-2.304883 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+</div>
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDEgRGF0YSBTdHJ1Y3R1cmUiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KCg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiMDEgRGF0YSBTdHJ1Y3R1cmUiCmF1dGhvcjogIkNsaW50IGtvIgpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sKLS0tCgotIFZlY3RvcgogICAgLSBhdG9taWMgdmVjdG9yCiAgICAtIGxpc3QKICAgIC0gZmFjdG9yCi0gTWF0cml4Ci0gTGlzdAotIERhdGEuRnJhbWUKLSBUaWJibGUgKGEgbW9yZSBnZW5lcmFsIGRhdGEgZnJhbWUpCgojIEF0b21pYyBWZWN0b3IKCmBgYHtyfQp4IDwtIGMoMSwyLDMpCnkgPC0gMTozCnogPC0gc2VxKGZyb209MSwgdG89MywgYnk9MSkKCnByaW50KHgpCnByaW50KHkpCnByaW50KHopCmBgYAoKYGBge3J9CmV5ZTMgPC0gbWF0cml4KGMoMSwwLDAsMCwxLDAsMCwwLDEpLCBucm93PTMsIG5jb2w9MykKcHJpbnQoZXllMykKCmV5ZTMgPC0gZGlhZyhjKDEsIDEsIDEpKQpwcmludChleWUzKQpgYGAKCgojIEF0dHJpYnV0ZXMKCmBgYHtyfQp4IDwtIHJub3JtKDIwKQpwcmludCh4KQpgYGAKCgpgYGB7cn0KbmFtZXMoeCkKYGBgCgpgYGB7cn0KbmFtZXMoeCkgPC0gNDE6NjAKbmFtZXMoeCkKYGBgCgojIyB5b3UgY2FuIHN1YnNldCB3aXRoIG5hbWVzCgpgYGB7cn0KeFs1OV0gIyBpdCBpcyBpbnRlcnByZXRpbmcgNTkgYXMgaW50ZWdlciBpbmRleApgYGAKCmBgYHtyfQp4WyI1OSJdCmBgYAoKCg==</div>
 
 
 

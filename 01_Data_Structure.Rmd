@@ -1,5 +1,64 @@
 ---
 title: "01 Data Structure"
+author: "Clint ko"
 output: html_notebook
 ---
+
+- Vector
+    - atomic vector
+    - list
+    - factor
+- Matrix
+- List
+- Data.Frame
+- Tibble (a more general data frame)
+
+# Atomic Vector
+
+```{r}
+x <- c(1,2,3)
+y <- 1:3
+z <- seq(from=1, to=3, by=1)
+
+print(x)
+print(y)
+print(z)
+```
+
+```{r}
+eye3 <- matrix(c(1,0,0,0,1,0,0,0,1), nrow=3, ncol=3)
+print(eye3)
+
+eye3 <- diag(c(1, 1, 1))
+print(eye3)
+```
+
+
+# Attributes
+
+```{r}
+x <- rnorm(20)
+print(x)
+```
+
+
+```{r}
+names(x)
+```
+
+```{r}
+names(x) <- 41:60
+names(x)
+```
+
+## you can subset with names
+
+```{r}
+x[59] # it is interpreting 59 as integer index
+```
+
+```{r}
+x["59"]
+```
+
 

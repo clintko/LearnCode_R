@@ -1,5 +1,41 @@
 ---
 title: "02 Subsetting"
+author: "Clint ko"
 output: html_notebook
 ---
+
+# subset of vector
+
+```{r}
+x <- rnorm(10)
+print(x)
+```
+
+```{r}
+print(x[2:4])
+print(x[seq(from = 1, to = length(x), by = 3)])
+print(x[x < 0])
+print(x[which(x < 0)])
+```
+
+# subset of matrix
+
+```{r}
+mat <- matrix(rnorm(4*6), nrow=4, ncol=6)
+#mat <- matrix(rnorm(4*6), nrow=4)
+print(mat)
+```
+
+```{r}
+cat("The orignal matrix\n")
+print(mat)
+cat("The first row\n")
+print(mat[1,])
+cat("The first row (Drop=False)\n")
+print(mat[1,,drop=FALSE])
+cat("The first column\n")
+print(mat[,1])
+cat("The first column (Drop=False)\n")
+print(mat[,1,drop=FALSE])
+```
 

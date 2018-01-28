@@ -4,4 +4,126 @@ author: "Clint ko"
 output: html_notebook
 ---
 
-#
+# Three Components of a function
+
+- **body**        --- code
+- **formals**     --- arguments
+- **environment** --- where the function exists
+
+Normally, a function contains these three components and it can be treated as an object.  
+**Exception: Primitive function**
+
+# Wickham's Principles
+
+- **name masking**                     --- lexical scoping and environment
+- **functions vs variables (no diff)** --- pass function as an object
+- **fresh start**                      --- memoryless
+- **dynamic lookups**                  --- how R search for the value of a variable
+
+All function can lookup to the variable defined in global environment.
+
+# Examples
+
+**All function can lookup to the variable defined in global environment.**
+```{r}
+f <- function() x
+x <- 20
+cat("1st call:", f(), "\n")
+
+x <- 10
+cat("2nd call:", f(), "\n")
+```
+
+Test global and local variables
+```{r}
+f <- function(x){
+    y <- x+2
+}
+f(2)        # assignment does not return things
+print(f(2)) # it force the function to output the value
+(f(2))      # it force the function to output the value
+y <- 3      # assign globally
+(f(2))      # name masking ---> inside f, there is a local variable 'y'
+y           # globally
+```
+
+if there is a typo, you might get unexpected results
+```{r}
+Foobar <- 6
+f <- function(foobar) {
+    return (Foobar + 1)
+}
+f(4)
+```
+
+To avoid such errors, you can use findGlobals function in library codetools
+```{r}
+codetools::findGlobals(f)
+```
+
+**take away messageg: **  
+make your function self-contain as possible, don't assume you will get values from global environment
+
+- Note
+    - functional programming
+        - self-contained as possibile
+        - no side effects (side effect: change values outside the environment of the function)
+        - **some exception: par, setwd**
+    - in compiling language, the compiler check the type of each variable
+    - in scripting language, such check does not existc
+
+
+# Calling functions
+when calling functions, R looks for a function's:
+
+- **named**
+- **prefix**
+- **positition**
+
+```
+# position variables
+f1 <- function(a, b){
+    a * (a + b)
+}
+
+f1(3, 4) # matched by position / order of arguments
+
+# named variables
+f2 <- function(a = 1, b = 2){
+    a * (a + b)
+}
+
+f2(b = 2, a = 1) # matched by name
+
+# prefix matching
+f3 <- function(xx){
+    return(xx)
+}
+
+f3(x = 3) # matched by prefix
+```
+
+- Note: 
+    - use position when it is extremely obvious (ex: rnorm)
+    - **dont ever use prefix matching**
+
+```{r}
+rnorm
+# n        --- position
+# mean, sd --- name
+```
+
+# Prefix & Infix
+
+prefix
+infix (ex: `+`)
+
+```{r}
+1 + 3
+```
+
+```{r}
+`+`(1, 2)
+```
+
+To create your own infix function, use %<...>%
