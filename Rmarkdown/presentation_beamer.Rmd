@@ -1,0 +1,57 @@
+---
+title: "Habits"
+author: Clint ko
+date: Oct 13, 2017
+output: 
+    beamer_presentation:
+        theme: boxes
+        color: crane
+        df_print: kable
+        slide_level: 1
+---
+
+# Outline
+
+1. Reference
+2. Title of a section
+3. Title of next section
+4. Title of third section
+
+---
+
+# Reference
+
+- [**Breamer Theme Gallery** (Click me to navigate to the site)](http://deic.uab.es/~iblanes/beamer_gallery/index.html)
+
+---
+
+# Title of a section
+
+## Title of a page
+
+- list01 idea
+- list02 idea
+
+---
+
+# Title of next section
+
+## Title of another page
+
+- list03 idea
+- list04 idea
+
+---
+
+>- list05 idea
+>- list06 idea
+
+---
+# Title of third section
+
+## Print data frame
+```{r}
+head(iris)
+```
+
+
